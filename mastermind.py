@@ -1,4 +1,4 @@
-import getch
+import msvcrt
 import random
 import os
 import time
@@ -10,6 +10,7 @@ pos_y=0
 unlocked=False
 game_on=True
 BLUE='\33[1;34;40m'
+YELLOW='\033[1;33;40m'
 RED='\33[1;31;40m'
 PURPLE='\33[1;35;40m'
 GREEN='\33[1;32;40m'
@@ -68,21 +69,21 @@ def checkCode():
 	for i in range(4):
 		for j in range(4):
 			if board[turn][j].color==code[j].color:
-				keys[turn][j].color=BLACK
+				keys[turn][j].color=GREEN
 			elif code[j].color==board[turn][i].color:
-				keys[turn][i].color=WHITE
+				keys[turn][i].color=YELLOW
 	turn=turn+1
 
 def checkKeys(unlocked):
 	#global unlocked
-	if keys[turn-1][0].color==BLACK and keys[turn-1][1].color==BLACK and keys[turn-1][2].color==BLACK and keys[turn-1][3].color==BLACK:
+	if keys[turn-1][0].color==GREEN and keys[turn-1][1].color==GREEN and keys[turn-1][2].color==GREEN and keys[turn-1][3].color==GREEN:
 		unlocked = True
 		return unlocked
 			
 def handle_keys():
 	global pos_y
 	global CPEG
-	key=getch.getch()
+	key=msvcrt.getwch()
 	#movement keys
 	if key=='a' and pos_y>0:
 		board[turn][pos_y].Reset(turn,pos_y)
@@ -112,7 +113,7 @@ def handle_keys():
 		board[turn][pos_y].Color(turn,pos_y,WHITE)
 		board[turn][pos_y].Reset(turn,pos_y)
 		board[turn][pos_y].Line(turn,pos_y)
-	elif key=='\n':
+	elif key=='\r':
 		checkCode()
 			
 def render_all():
